@@ -9,12 +9,24 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
   <title>React App</title>
+  <script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 81vddhot28giv2
+    authorize: true
+    onLoad: onLinkedInLoad
+  </script>
 </head>
 
 <body>
   <div id="fb-root"></div>
   <script>
+    var access_token ;
     window.fbAsyncInit = function () {
       FB.init({
         appId: '555688408131156',
@@ -24,6 +36,7 @@
       });
       FB.getLoginStatus(function (response) {
         statusChangeCallback(response);
+          access_token = response.authResponse.accessToken;
       });
     };
     function testAPI() {
@@ -41,38 +54,26 @@
       }
     }
     function getdata() {
-      const url = 'https://graph.facebook.com/me/feed?access_token=EAACEdEose0cBAN7caw0yTF5u0d1dndThBxgmikVKFuHT0qRohU3lwuWpP7NXJzCIWJAC5wwdVMUyC4bMmVrT0TuQTE7E9ZCDSvxDi4Fgx3kTKyk33eISZBiL6QNQJBwiIGgpM2ZCMPFKbhgh32eJn9vsIpZBzAIfcA1cqHFf8q96qdGel6kW0oVheKhFlg8ZD';
+      const url = 'https://graph.facebook.com/me/feed?access_token=' + access_token;
       fetch(url)
-        .then((response) => {
-          response.json(),
-          console.log(response)
-        })
-        .then((responseJson) => {
-          return responseJson;
+        .then(function(response) {
+          response.json()
+          .then(function(text) {
+            console.log(text);
+            var id_post = text.data[1].id;
+            var link_post = '';
+            id_post = id_post.split('_');
+            link_post = 'https://www.facebook.com/' + id_post[0] + '/posts/' + id_post[1];
+            console.log(link_post);
+          })
         })
         .catch((error) => {
           console.error(error);
         });
     }
+// google 
 
-    // $(document).ready(function () {
-    //   $("button").bind("click", function () {
-    //     $.ajax({
-    //       url: 'https://graph.facebook.com/me/feed?access_token=EAACEdEose0cBAN7caw0yTF5u0d1dndThBxgmikVKFuHT0qRohU3lwuWpP7NXJzCIWJAC5wwdVMUyC4bMmVrT0TuQTE7E9ZCDSvxDi4Fgx3kTKyk33eISZBiL6QNQJBwiIGgpM2ZCMPFKbhgh32eJn9vsIpZBzAIfcA1cqHFf8q96qdGel6kW0oVheKhFlg8ZD',
-    //       type: "get",
-    //       dataType: "json",
-    //       cache: false,
-    //       //data: {param1: 'value1'},
-    //       success: function (data) {
-    //         console.log(data);
-    //       },
-    //       error: function () {
-    //         //called when there is an error
-    //         alert('aaa');
-    //       }
-    //     });
-    //   })
-    // })
+
   </script>
   <script>
         (function (d, s, id) {
@@ -83,17 +84,53 @@
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
   </script>
+
+
+
+  <!--linkedin -->
+  <script type="in/Login"></script>
+  <script type="text/javascript">
+    
+    // Setup an event listener to make an API call once auth is complete
+    function onLinkedInLoad() {
+        IN.Event.on(IN, "auth", getProfileData);
+    }
+
+    // Handle the successful return from the API call
+    function onSuccess(data) {
+        console.log(data);
+    }
+
+    // Handle an error response from the API call
+    function onError(error) {
+        console.log(error);
+    }
+
+    // Use the API call wrapper to request the member's basic profile data
+    function getProfileData() {
+        IN.API.Raw("/people/~").result(onSuccess).error(onError);
+    }
+
+</script>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root"></div>
-  <p>post</p>
+  <!-- <div id="my-signin2"></div> -->
+
+  <p>post fb</p>
   <form action="https://graph.facebook.com/me/feed" method="post">
     <input type="text" name="message">
     <input type="text" name="access_token">
     <input type="submit">
   </form>
-  <button onclick='getdata()'>get data</button>
+  
+  <p>post LinkedIn</p>
+  <form action="https://api.linkedin.com/v1/people/~/shares?format=json" method="post">
+    <input type="text" name="title">
+    <input type="text" name="code">
+    <input type="submit">
+  </form>
 
 </body>
 
