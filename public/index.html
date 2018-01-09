@@ -9,91 +9,17 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+
   <title>React App</title>
+
 </head>
 
 <body>
-  <div id="fb-root"></div>
-  <script>
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: '555688408131156',
-        cookie: true,
-        xfbml: true,
-        version: 'v2.8'
-      });
-      FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-      });
-    };
-    function testAPI() {
-      FB.api('/me', function (response) {
-        // document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!';
-      });
-    }
-    function statusChangeCallback(response) {
-      // console.log(response);
-      if (response.status === 'connected') {
-        testAPI();
-      } else {
-        document.getElementById('status').innerHTML = 'Please log ' +
-          'into this app.';
-      }
-    }
-    function getdata() {
-      const url = 'https://graph.facebook.com/me/feed?access_token=EAACEdEose0cBAN7caw0yTF5u0d1dndThBxgmikVKFuHT0qRohU3lwuWpP7NXJzCIWJAC5wwdVMUyC4bMmVrT0TuQTE7E9ZCDSvxDi4Fgx3kTKyk33eISZBiL6QNQJBwiIGgpM2ZCMPFKbhgh32eJn9vsIpZBzAIfcA1cqHFf8q96qdGel6kW0oVheKhFlg8ZD';
-      fetch(url)
-        .then((response) => {
-          response.json(),
-          console.log(response)
-        })
-        .then((responseJson) => {
-          return responseJson;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
 
-    // $(document).ready(function () {
-    //   $("button").bind("click", function () {
-    //     $.ajax({
-    //       url: 'https://graph.facebook.com/me/feed?access_token=EAACEdEose0cBAN7caw0yTF5u0d1dndThBxgmikVKFuHT0qRohU3lwuWpP7NXJzCIWJAC5wwdVMUyC4bMmVrT0TuQTE7E9ZCDSvxDi4Fgx3kTKyk33eISZBiL6QNQJBwiIGgpM2ZCMPFKbhgh32eJn9vsIpZBzAIfcA1cqHFf8q96qdGel6kW0oVheKhFlg8ZD',
-    //       type: "get",
-    //       dataType: "json",
-    //       cache: false,
-    //       //data: {param1: 'value1'},
-    //       success: function (data) {
-    //         console.log(data);
-    //       },
-    //       error: function () {
-    //         //called when there is an error
-    //         alert('aaa');
-    //       }
-    //     });
-    //   })
-    // })
-  </script>
-  <script>
-        (function (d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.11&appId=555688408131156';
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-  </script>
   <noscript>
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root"></div>
-  <p>post</p>
-  <form action="https://graph.facebook.com/me/feed" method="post">
-    <input type="text" name="message">
-    <input type="text" name="access_token">
-    <input type="submit">
-  </form>
-  <button onclick='getdata()'>get data</button>
 
 </body>
 
