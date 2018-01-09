@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+import './App.css';
 class App extends Component {
 
   getLinkPostFB = () => {
@@ -15,15 +17,20 @@ class App extends Component {
         console.error(error);
       });
   }
+  
   render() {
     const responseFacebook = (response) => {
       localStorage.setItem('fbaccess_token',response.accessToken)
     }
+    const responseGoogle = (response) => {
+      console.log(response);
+    }
+    
   return (
     <div className="App">
-      <div className="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
-      <div className='column'>
-        <div>
+      <div className='row'>
+        <div className='item'>
+          <div className="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
           <FacebookLogin
             appId="555688408131156"
             autoLoad={true}
@@ -38,7 +45,17 @@ class App extends Component {
           </form>
           <button onClick={() => this.getLinkPostFB()}>get link post</button>
         </div>
-        <div></div>
+        <div className='item'>
+          <GoogleLogin
+            clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+            buttonText="Login"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+          />
+        </div>
+        <div className='item'>
+
+        </div>
       </div>
     </div>
   );
